@@ -1,8 +1,12 @@
 import { useEffect, Component } from "react";
 import "@/App.css";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Lenis from "lenis";
 import { Toaster } from "sonner";
+import ScrollToTop from "@/components/ScrollToTop";
+import Home from "@/pages/Home";
+import CaseStudy from "@/pages/CaseStudy";
+import Inbox from "@/pages/Inbox";
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
@@ -57,15 +61,12 @@ export default function App() {
                 <div className="grain bg-obsidian font-body text-slate-50 antialiased">
                     <CursorGlow />
                     <Nav />
-                    <main>
-                        <Hero />
-                        <Marquee />
-                        <Projects />
-                        <Skills />
-                        <Experience />
-                        <About />
-                        <Contact />
-                    </main>
+                    <ScrollToTop />
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/projects/:slug" element={<CaseStudy />} />
+                        <Route path="/admin/inbox" element={<Inbox />} />
+                    </Routes>
                     <Footer />
                     <Toaster
                         theme="dark"

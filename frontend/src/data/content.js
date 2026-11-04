@@ -145,3 +145,50 @@ export const SKILLS = [
 
 export const ABOUT_BIO =
     "I'm Ritesh — a Computer Science undergraduate at Thapar Institute who ships real products. I've deployed ticketing and delivery platforms used by thousands, orchestrated multi-agent LLM systems, and turned half a million grievance records into decisions at Axis Bank. I care about clean architecture, fast interfaces and details you can feel.";
+
+export const RESUME_URL = "/RiteshKapoorResume.pdf";
+
+export const CASE_STUDIES = {
+    agentstream: {
+        slug: "agentstream",
+        overview:
+            "AgentStream is a multi-agent LLM orchestration platform built in Python. It coordinates 3 locally-hosted LLMs as specialized agents — handling tool calling, task routing, agent-to-agent delegation, turn-taking and output aggregation into one coherent response. A custom WebSocket streaming protocol delivers each agent's tokens to the frontend in real time, making multi-agent reasoning observable as it happens.",
+        highlights: [
+            "Coordinated 3 locally-hosted LLMs as specialized agents with defined roles and turn-taking",
+            "Implemented tool calling, task routing and agent-to-agent delegation",
+            "Aggregated multi-agent outputs into a single coherent response",
+            "Engineered a custom WebSocket streaming protocol for real-time token delivery to the frontend",
+        ],
+        stack: ["Python", "LangChain", "WebSockets", "SSE", "Locally-hosted LLMs"],
+        live: null,
+        repo: PROFILE?.github || "https://github.com/Riteshk1314",
+    },
+    talkeys: {
+        slug: "talkeys",
+        overview:
+            "Talkeys is a full-stack event ticketing platform serving 3,500+ users. It pairs a RESTful API backend with QR-code scanning that admits only valid tickets, and integrates the PhonePe payment gateway API with webhook callbacks for secure, end-to-end ticket transactions.",
+        highlights: [
+            "QR-code ticket validation at entry — only valid tickets are admitted",
+            "PhonePe payment gateway integration with webhook callbacks for secure end-to-end transactions",
+            "Deployed and scaled the backend on GCP for thousands of concurrent requests",
+            "Sustained 99.9% uptime at peak",
+        ],
+        stack: ["Express.js", "MongoDB", "React.js", "GCP", "PhonePe API"],
+        live: "https://talkeys.xyz",
+        repo: "https://github.com/Riteshk1314",
+    },
+    fooddle: {
+        slug: "fooddle",
+        overview:
+            "Fooddle is a full-stack food delivery platform connecting students with campus vendors, serving 5,000+ users. Built on Django with PostgreSQL databases, it processes 10,000+ orders and supports 100+ concurrent daily transactions, with PhonePe payments integrated.",
+        highlights: [
+            "Full-stack platform connecting students with campus vendors",
+            "RESTful backend services with PostgreSQL databases",
+            "PhonePe payment integration for orders",
+            "10,000+ orders processed with 100+ concurrent daily transactions",
+        ],
+        stack: ["Django", "PostgreSQL", "React.js", "PhonePe API"],
+        live: "https://fooddle.in",
+        repo: "https://github.com/Riteshk1314",
+    },
+};

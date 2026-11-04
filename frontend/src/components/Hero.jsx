@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import HeroCanvas from "./HeroCanvas";
 import { scrollTo } from "@/lib/scroll";
-import { HERO_LINES, HERO_SUB, PROFILE } from "@/data/content";
+import { HERO_LINES, HERO_SUB, PROFILE, RESUME_URL } from "@/data/content";
 
 const EASE = [0.16, 1, 0.3, 1];
 
@@ -111,6 +111,14 @@ export default function Hero() {
                     >
                         Get in Touch
                     </button>
+                    <a
+                        data-testid="hero-cta-resume"
+                        href={RESUME_URL}
+                        download="RiteshKapoorResume.pdf"
+                        className="rounded-full border border-amber/40 px-7 py-3.5 font-display text-sm font-bold text-amber backdrop-blur-md transition-all duration-300 hover:bg-amber/10 hover:shadow-[0_0_24px_rgba(245,158,11,0.25)]"
+                    >
+                        Download Résumé ↓
+                    </a>
                 </motion.div>
 
                 <motion.div

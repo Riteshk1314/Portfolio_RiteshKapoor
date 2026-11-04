@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Globe } from "lucide-react";
 import { PROJECTS, LIVE_LINKS } from "@/data/content";
@@ -18,12 +19,14 @@ function onSpotlightMove(e) {
 }
 
 function ProjectCard({ p, className }) {
+    const navigate = useNavigate();
     return (
         <motion.article
             data-testid={p.id}
             {...reveal}
+            onClick={() => navigate(`/projects/${p.title.toLowerCase()}`)}
             onMouseMove={onSpotlightMove}
-            className={`spotlight-card group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40 backdrop-blur-xl transition-colors duration-500 hover:border-cyan-500/40 ${className}`}
+            className={`spotlight-card group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40 backdrop-blur-xl transition-colors duration-500 hover:border-cyan-500/40 ${className}`}
         >
             <div className="relative h-56 overflow-hidden md:h-64">
                 <img
@@ -65,7 +68,7 @@ function ProjectCard({ p, className }) {
                         {p.stat}
                     </p>
                 )}
-                <div className="mt-auto flex flex-wrap gap-2 pt-2">
+                <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
                     {p.tags.map((t) => (
                         <span
                             key={t}
@@ -74,6 +77,9 @@ function ProjectCard({ p, className }) {
                             {t}
                         </span>
                     ))}
+                    <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.2em] text-slate-600 transition-colors duration-300 group-hover:text-cyan-400">
+                        Case study →
+                    </span>
                 </div>
             </div>
         </motion.article>
