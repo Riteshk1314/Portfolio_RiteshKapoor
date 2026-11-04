@@ -7,6 +7,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import Home from "@/pages/Home";
 import CaseStudy from "@/pages/CaseStudy";
 import Inbox from "@/pages/Inbox";
+import World from "@/pages/World";
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
@@ -66,6 +67,7 @@ export default function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/projects/:slug" element={<CaseStudy />} />
                         <Route path="/admin/inbox" element={<Inbox />} />
+                        <Route path="/world" element={<World />} />
                     </Routes>
                     <Footer />
                     <Toaster

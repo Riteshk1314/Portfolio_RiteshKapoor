@@ -31,6 +31,7 @@ Build a portfolio website for Ritesh Kapoor from his resume PDF (work-only showc
 - Inbox panel at /admin/inbox (reads GET /api/contact, newest first; unauthenticated — direct URL only)
 - SEO + Open Graph/Twitter meta tags in index.html
 - Test contact messages cleaned from DB after verification
+- Drivable 3D open world at /world (Bruno Simon style, user request): Three.js low-poly car driven with WASD/arrow keys (touch buttons on coarse-pointer devices), 5 glowing zone pads (Projects, Experience, Skills, About, Contact) with Enter-to-open glass panels showing real resume content, camera follow, obstacle collisions, boundary clamp, zone-explored progress counter. Hero has "Explore in 3D" CTA. Verified e2e: drove car onto CONTACT pad via keyboard, prompt fired, panel opened, back button works after z-index fix (world z-60 above fixed nav).
 
 ## Backlog
 - P1: Downloadable resume PDF button; project detail modals; per-project case-study pages

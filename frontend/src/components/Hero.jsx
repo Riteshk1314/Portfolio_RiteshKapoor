@@ -119,6 +119,13 @@ export default function Hero() {
                     >
                         Download Résumé ↓
                     </a>
+                    <a
+                        data-testid="hero-cta-world"
+                        href="/world"
+                        className="rounded-full border border-iris/50 px-7 py-3.5 font-display text-sm font-bold text-iris backdrop-blur-md transition-all duration-300 hover:bg-iris/10 hover:shadow-[0_0_24px_rgba(129,140,248,0.3)]"
+                    >
+                        Explore in 3D
+                    </a>
                 </motion.div>
 
                 <motion.div
