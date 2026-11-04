@@ -1,23 +1,16 @@
 import { useEffect, Component } from "react";
 import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import Lenis from "lenis";
 import { Toaster } from "sonner";
 import ScrollToTop from "@/components/ScrollToTop";
 import Home from "@/pages/Home";
 import CaseStudy from "@/pages/CaseStudy";
 import Inbox from "@/pages/Inbox";
-import World from "@/pages/World";
+import Park from "@/pages/Park";
 import Nav from "@/components/Nav";
-import Hero from "@/components/Hero";
-import Marquee from "@/components/Marquee";
-import Projects from "@/components/Projects";
-import Skills from "@/components/Skills";
-import Experience from "@/components/Experience";
-import About from "@/components/About";
-import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import CursorGlow from "@/components/CursorGlow";
+import Cursor from "@/components/site/Cursor";
 
 class ErrorBoundary extends Component {
     constructor(props) {
@@ -37,6 +30,17 @@ class ErrorBoundary extends Component {
         }
         return this.props.children;
     }
+}
+
+function SiteLayout() {
+    return (
+        <>
+            <Cursor />
+            <Nav />
+            <Outlet />
+            <Footer />
+        </>
+    );
 }
 
 export default function App() {
@@ -59,17 +63,17 @@ export default function App() {
     return (
         <ErrorBoundary>
             <BrowserRouter>
-                <div className="grain bg-obsidian font-body text-slate-50 antialiased">
-                    <CursorGlow />
-                    <Nav />
+                <div className="grain bg-ink font-body text-bone antialiased">
                     <ScrollToTop />
                     <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/projects/:slug" element={<CaseStudy />} />
-                        <Route path="/admin/inbox" element={<Inbox />} />
-                        <Route path="/world" element={<World />} />
+                        <Route path="/" element={<Park />} />
+                        <Route path="/world" element={<Navigate to="/" replace />} />
+                        <Route element={<SiteLayout />}>
+                            <Route path="/site" element={<Home />} />
+                            <Route path="/projects/:slug" element={<CaseStudy />} />
+                            <Route path="/admin/inbox" element={<Inbox />} />
+                        </Route>
                     </Routes>
-                    <Footer />
                     <Toaster
                         theme="dark"
                         position="bottom-right"

@@ -1,92 +1,141 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import axios from "axios";
 import { toast } from "sonner";
+import { PROFILE, RESUME_URL } from "@/data/content";
+import { Eyebrow, Magnetic, Roll, SplitText, useLocalTime } from "@/components/site/motion";
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
-const EASE = [0.16, 1, 0.3, 1];
+
+const LINKS = [
+    ["GitHub", PROFILE.github, "social-github"],
+    ["LinkedIn", PROFILE.linkedin, "social-linkedin"],
+    ["LeetCode", PROFILE.leetcode, "social-leetcode"],
+];
+
+function Field({ id, label, textarea, ...rest }) {
+    const Tag = textarea ? "textarea" : "input";
+    return (
+        <label htmlFor={id} className="group block border-b border-bone/20 pb-3 transition-colors focus-within:border-ember">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-bone/45 group-focus-within:text-ember">{label}</span>
+            <Tag
+                id={id}
+                {...rest}
+                className={`mt-2 w-full resize-none bg-transparent font-display text-2xl tracking-tight text-bone outline-none placeholder:text-bone/20 md:text-3xl ${textarea ? "min-h-[110px]" : ""}`}
+            />
+        </label>
+    );
+}
 
 export default function Contact() {
     const [form, setForm] = useState({ name: "", email: "", message: "" });
     const [sending, setSending] = useState(false);
+    const time = useLocalTime();
 
     const submit = async (e) => {
         e.preventDefault();
         setSending(true);
         try {
             await axios.post(`${API}/contact`, form);
-            toast.success("Message sent — I'll get back to you soon.");
+            toast.success("Message sent. I'll get back to you soon.");
             setForm({ name: "", email: "", message: "" });
         } catch {
-            toast.error("Something went wrong. Please try again.");
+            toast.error("Couldn't send that. Please try again, or email me directly.");
         } finally {
             setSending(false);
         }
     };
 
-    const field =
-        "w-full rounded-xl border border-white/10 bg-obsidian/60 px-4 py-3.5 text-sm text-slate-200 placeholder:text-slate-600 outline-none transition-colors duration-300 focus:border-cyan-400/60";
-
     return (
-        <section id="contact" className="mx-auto max-w-7xl px-6 py-24 md:py-32">
-            <div className="grid gap-12 lg:grid-cols-2">
-                <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.15 }}
-                    transition={{ duration: 0.8, ease: EASE }}
-                >
-                    <p className="mb-3 font-mono text-xs uppercase tracking-[0.35em] text-cyan-400/80">
-                        Contact
-                    </p>
-                    <h2 className="font-display text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
-                        Let's build something.
-                    </h2>
-                    <p className="mt-6 max-w-md text-base leading-relaxed text-slate-400">
-                        Open to full-time roles, internships and ambitious
-                        collaborations. The fastest way to reach me is the form —
-                        it lands directly in my inbox.
-                    </p>
-                </motion.div>
+        <section id="contact" className="relative mx-auto max-w-[1600px] px-5 py-28 md:px-10 md:py-40">
+            <Eyebrow index="05">Contact</Eyebrow>
+            <div className="mt-8 flex flex-wrap items-end justify-between gap-10">
+                <h2 className="font-display text-[clamp(3.4rem,11vw,12rem)] font-bold leading-[0.82] tracking-[-0.06em]">
+                    <SplitText text="Have a role" />
+                    <br />
+                    <span className="font-serif font-normal italic text-ember">
+                        <SplitText text="in mind?" delay={0.15} />
+                    </span>
+                </h2>
+                <Magnetic strength={0.4}>
+                    <a
+                        href={`mailto:${PROFILE.email}`}
+                        data-testid="about-email-link"
+                        data-cursor="Email"
+                        className="grid h-40 w-40 place-items-center rounded-full bg-ember text-center font-display text-lg font-semibold leading-tight text-ink transition-transform active:scale-95 md:h-48 md:w-48 md:text-xl"
+                    >
+                        Let's
+                        <br />
+                        talk ↗
+                    </a>
+                </Magnetic>
+            </div>
 
-                <motion.form
-                    data-testid="contact-form"
-                    onSubmit={submit}
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.15 }}
-                    transition={{ duration: 0.8, ease: EASE, delay: 0.12 }}
-                    className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-slate-900/40 p-8 backdrop-blur-xl"
-                >
-                    <label className="sr-only" htmlFor="contact-name">Name</label>
-                    <input
-                        id="contact-name"
-                        data-testid="contact-input-name"
-                        className={field}
-                        placeholder="Your name"
-                        value={form.name}
-                        onChange={(e) => setForm({ ...form, name: e.target.value })}
-                        required
-                        maxLength={120}
-                    />
-                    <label className="sr-only" htmlFor="contact-email">Email</label>
-                    <input
-                        id="contact-email"
-                        data-testid="contact-input-email"
-                        type="email"
-                        className={field}
-                        placeholder="Your email"
-                        value={form.email}
-                        onChange={(e) => setForm({ ...form, email: e.target.value })}
-                        required
-                        maxLength={200}
-                    />
-                    <label className="sr-only" htmlFor="contact-message">Message</label>
-                    <textarea
+            <div className="mt-24 grid gap-16 md:grid-cols-12">
+                <div className="space-y-10 md:col-span-4">
+                    <div>
+                        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-bone/45">Email</p>
+                        <a href={`mailto:${PROFILE.email}`} className="group mt-2 inline-block break-all font-display text-xl tracking-tight md:text-2xl">
+                            <Roll>{PROFILE.email}</Roll>
+                        </a>
+                    </div>
+                    <div>
+                        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-bone/45">Phone</p>
+                        <p className="mt-2 font-display text-xl tracking-tight md:text-2xl">{PROFILE.phone}</p>
+                    </div>
+                    <div>
+                        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-bone/45">Elsewhere</p>
+                        <ul className="mt-2 space-y-1">
+                            {LINKS.map(([label, href, id]) => (
+                                <li key={id}>
+                                    <a data-testid={id} href={href} target="_blank" rel="noopener noreferrer" className="group inline-block font-display text-xl tracking-tight md:text-2xl">
+                                        <Roll>{label} ↗</Roll>
+                                    </a>
+                                </li>
+                            ))}
+                            <li>
+                                <a href={RESUME_URL} download="RiteshKapoorResume.pdf" className="group inline-block font-display text-xl tracking-tight text-ember md:text-2xl">
+                                    <Roll>Résumé (PDF) ↓</Roll>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-bone/45">
+                        Local time · {time} IST
+                        <br />
+                        Usually replies within a day
+                    </p>
+                </div>
+
+                <form data-testid="contact-form" onSubmit={submit} className="space-y-10 md:col-span-7 md:col-start-6">
+                    <div className="grid gap-10 sm:grid-cols-2">
+                        <Field
+                            id="contact-name"
+                            data-testid="contact-input-name"
+                            label="Your name"
+                            placeholder="Priya Sharma"
+                            value={form.name}
+                            onChange={(e) => setForm({ ...form, name: e.target.value })}
+                            required
+                            maxLength={120}
+                        />
+                        <Field
+                            id="contact-email"
+                            data-testid="contact-input-email"
+                            label="Your email"
+                            type="email"
+                            placeholder="priya@company.com"
+                            value={form.email}
+                            onChange={(e) => setForm({ ...form, email: e.target.value })}
+                            required
+                            maxLength={200}
+                        />
+                    </div>
+                    <Field
                         id="contact-message"
                         data-testid="contact-input-message"
-                        className={`${field} min-h-[140px] resize-y`}
-                        placeholder="What are we building?"
+                        label="Message"
+                        textarea
+                        placeholder="Tell me about the role or project…"
                         value={form.message}
                         onChange={(e) => setForm({ ...form, message: e.target.value })}
                         required
@@ -96,11 +145,12 @@ export default function Contact() {
                         data-testid="contact-submit-button"
                         type="submit"
                         disabled={sending}
-                        className="mt-2 rounded-full bg-electric px-7 py-3.5 font-display text-sm font-bold text-obsidian transition-all duration-300 hover:bg-cyan-300 hover:shadow-[0_0_32px_rgba(56,189,248,0.45)] disabled:opacity-50"
+                        className="group flex w-full items-center justify-between rounded-full bg-bone px-8 py-5 font-display text-lg font-semibold text-ink transition-colors hover:bg-ember active:scale-[0.99] disabled:opacity-50"
                     >
-                        {sending ? "Sending…" : "Send Message"}
+                        <Roll>{sending ? "Sending…" : "Send message"}</Roll>
+                        <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
                     </button>
-                </motion.form>
+                </form>
             </div>
         </section>
     );

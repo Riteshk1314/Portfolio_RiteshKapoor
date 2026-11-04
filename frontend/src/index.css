@@ -42,68 +42,91 @@ html.lenis body {
 
 body {
     margin: 0;
-    background: #07080c;
-    color: #f8fafc;
-    font-family: "Space Grotesk", sans-serif;
+    background: #0e0d0b;
+    color: #ede8de;
+    font-family: "Geist", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
 }
 
 ::selection {
-    background: rgba(56, 189, 248, 0.35);
-    color: #f8fafc;
+    background: #ef6a3e;
+    color: #0e0d0b;
+}
+
+h1,
+h2,
+h3 {
+    text-wrap: balance;
+}
+p {
+    text-wrap: pretty;
 }
 
 ::-webkit-scrollbar {
     width: 10px;
 }
 ::-webkit-scrollbar-track {
-    background: #07080c;
+    background: #0e0d0b;
 }
 ::-webkit-scrollbar-thumb {
-    background: #1e293b;
+    background: #2a2722;
     border-radius: 8px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #334155;
+    background: #3b3730;
 }
 
-/* Editorial marquee */
-.marquee-track {
-    animation: marquee 48s linear infinite;
-    will-change: transform;
+/* Hero name: each letter thins out and warms up under the cursor */
+.hero-char {
+    transition:
+        font-variation-settings 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        color 0.4s ease;
+    font-variation-settings: "wght" 780, "wdth" 100;
 }
-.marquee-track:hover {
-    animation-play-state: paused;
+.hero-char:hover {
+    font-variation-settings: "wght" 220, "wdth" 75;
+    color: #ef6a3e;
 }
-@keyframes marquee {
+
+/* Outlined display text */
+.text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(237, 232, 222, 0.55);
+}
+
+/* Dashed "data flow" lines in the project art */
+@keyframes flow {
     to {
-        transform: translateX(-50%);
+        stroke-dashoffset: -40;
     }
 }
+.flow-line {
+    stroke-dasharray: 4 6;
+    animation: flow 1.6s linear infinite;
+}
+@keyframes scan {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(var(--scan, 150px));
+    }
+}
+.scan-line {
+    animation: scan 2.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
 
-/* Card cursor spotlight */
-.spotlight-card {
-    position: relative;
-}
-.spotlight-card::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: radial-gradient(
-        560px circle at var(--mx, 50%) var(--my, 50%),
-        rgba(56, 189, 248, 0.09),
-        transparent 45%
-    );
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-    z-index: 2;
-}
-.spotlight-card:hover::after {
-    opacity: 1;
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
 }
 
 /* Film grain overlay */

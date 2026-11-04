@@ -1,82 +1,70 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Briefcase, GraduationCap } from "lucide-react";
-import { EXPERIENCE, EDUCATION } from "@/data/content";
+import { EXPERIENCE } from "@/data/content";
+import { EASE, Eyebrow, SplitText } from "@/components/site/motion";
 
-const EASE = [0.16, 1, 0.3, 1];
-const reveal = {
-    initial: { opacity: 0, y: 40 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.15 },
-    transition: { duration: 0.8, ease: EASE },
-};
+function Row({ x, i, open, onToggle }) {
+    return (
+        <motion.li
+            data-testid={`experience-card-${i + 1}`}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, ease: EASE, delay: i * 0.08 }}
+            className="border-t border-bone/15 last:border-b"
+        >
+            <button onClick={onToggle} aria-expanded={open} className="group relative grid w-full grid-cols-12 items-baseline gap-4 overflow-hidden px-3 py-7 text-left md:px-5 md:py-9">
+                <span aria-hidden="true" className="absolute inset-0 origin-bottom scale-y-0 bg-ember transition-transform duration-500 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] group-hover:scale-y-100" />
+                <span className="relative col-span-12 font-mono text-[11px] uppercase tracking-[0.14em] text-bone/45 transition-colors group-hover:text-ink md:col-span-2">{x.period}</span>
+                <span className="relative col-span-10 font-display text-[clamp(1.8rem,4.4vw,4rem)] font-semibold leading-[0.95] tracking-[-0.04em] transition-colors group-hover:text-ink md:col-span-6">
+                    {x.role}
+                    <span className="block font-serif text-[0.6em] font-normal italic tracking-normal text-bone/60 transition-colors group-hover:text-ink/70">{x.company}</span>
+                </span>
+                <span className="relative hidden font-mono text-[11px] uppercase tracking-[0.14em] text-bone/45 transition-colors group-hover:text-ink md:col-span-3 md:block">{x.location}</span>
+                <span className="relative col-span-2 justify-self-end font-display text-3xl font-light transition-transform duration-500 group-hover:text-ink md:col-span-1" style={{ transform: open ? "rotate(45deg)" : "none" }}>
+                    +
+                </span>
+            </button>
+            <AnimatePresence initial={false}>
+                {open && (
+                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.6, ease: EASE }} className="overflow-hidden">
+                        <ul className="grid gap-4 pb-10 md:grid-cols-12">
+                            {x.bullets.map((b, k) => (
+                                <li key={b} className="flex gap-4 leading-relaxed text-bone/70 md:col-span-6 md:col-start-3 lg:col-span-5 lg:col-start-3 [&:nth-child(even)]:lg:col-start-8">
+                                    <span className="font-mono text-xs text-ember">0{k + 1}</span>
+                                    {b}
+                                </li>
+                            ))}
+                        </ul>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.li>
+    );
+}
 
 export default function Experience() {
+    const [open, setOpen] = useState(0);
     return (
-        <section id="experience" className="relative bg-surface/50 py-24 md:py-32">
-            <div className="mx-auto max-w-7xl px-6">
-                <motion.div {...reveal} className="mb-14">
-                    <p className="mb-3 font-mono text-xs uppercase tracking-[0.35em] text-cyan-400/80">
-                        Track Record
-                    </p>
-                    <h2 className="font-display text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
-                        Experience.
+        <section id="experience" className="relative mx-auto max-w-[1600px] px-5 py-28 md:px-10 md:py-40">
+            <div className="mb-16 flex flex-wrap items-end justify-between gap-6">
+                <div>
+                    <Eyebrow index="03">Experience</Eyebrow>
+                    <h2 className="mt-8 font-display text-[clamp(3rem,8vw,8rem)] font-bold leading-[0.85] tracking-[-0.055em]">
+                        <SplitText text="Where I've" />
+                        <br />
+                        <span className="font-serif font-normal italic text-ember">
+                            <SplitText text="put in the work." delay={0.15} />
+                        </span>
                     </h2>
-                </motion.div>
-
-                <div className="grid gap-6 lg:grid-cols-3">
-                    {EXPERIENCE.map((x, i) => (
-                        <motion.div
-                            key={x.company}
-                            {...reveal}
-                            transition={{ ...reveal.transition, delay: i * 0.12 }}
-                            data-testid={`experience-card-${i + 1}`}
-                            className="rounded-2xl border border-white/10 bg-slate-900/40 p-8 backdrop-blur-xl transition-colors duration-500 hover:border-cyan-500/30"
-                        >
-                            <Briefcase className="mb-5 h-5 w-5 text-cyan-400" aria-hidden="true" />
-                            <h3 className="font-display text-lg font-bold tracking-tight">
-                                {x.role}
-                            </h3>
-                            <p className="mt-1 text-sm text-slate-300">{x.company}</p>
-                            <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500">
-                                {x.period} · {x.location}
-                            </p>
-                            <ul className="mt-5 space-y-3">
-                                {x.bullets.map((b) => (
-                                    <li
-                                        key={b}
-                                        className="flex gap-3 text-sm leading-relaxed text-slate-400"
-                                    >
-                                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-amber" />
-                                        {b}
-                                    </li>
-                                ))}
-                            </ul>
-                        </motion.div>
-                    ))}
-
-                    <motion.div
-                        {...reveal}
-                        transition={{ ...reveal.transition, delay: 0.24 }}
-                        data-testid="education-card"
-                        className="rounded-2xl border border-white/10 bg-gradient-to-br from-cyan-500/10 to-transparent p-8 backdrop-blur-xl"
-                    >
-                        <GraduationCap className="mb-5 h-5 w-5 text-amber" aria-hidden="true" />
-                        <h3 className="font-display text-lg font-bold tracking-tight">
-                            {EDUCATION.degree}
-                        </h3>
-                        <p className="mt-1 text-sm text-slate-300">{EDUCATION.school}</p>
-                        <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500">
-                            {EDUCATION.detail}
-                        </p>
-                        <div className="my-5 h-px bg-white/10" />
-                        <p className="text-sm text-slate-300">{EDUCATION.school2}</p>
-                        <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500">
-                            {EDUCATION.detail2}
-                        </p>
-                    </motion.div>
                 </div>
+                <p className="max-w-xs text-bone/55">From banking data pipelines to running a 450-person hackathon. Click a row for details.</p>
             </div>
+            <ul>
+                {EXPERIENCE.map((x, i) => (
+                    <Row key={x.company} x={x} i={i} open={open === i} onToggle={() => setOpen(open === i ? -1 : i)} />
+                ))}
+            </ul>
         </section>
     );
 }

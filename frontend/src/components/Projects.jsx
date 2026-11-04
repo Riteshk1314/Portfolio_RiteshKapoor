@@ -1,145 +1,135 @@
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowUpRight, Globe } from "lucide-react";
-import { PROJECTS, LIVE_LINKS } from "@/data/content";
+import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import { PROJECTS, CASE_STUDIES, LIVE_LINKS } from "@/data/content";
+import { Eyebrow, Magnetic, Roll, SplitText, useMedia } from "@/components/site/motion";
+import { AgentArt, OrdersArt, TicketArt } from "@/components/site/ProjectArt";
 
-const EASE = [0.16, 1, 0.3, 1];
-
-const reveal = {
-    initial: { opacity: 0, y: 40 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.15 },
-    transition: { duration: 0.8, ease: EASE },
+const ART = { agentstream: AgentArt, talkeys: TicketArt, fooddle: OrdersArt };
+const FACTS = {
+    agentstream: ["3 local LLMs", "live token streaming"],
+    talkeys: ["3,500+ users", "99.9% uptime at peak"],
+    fooddle: ["5,000+ users", "10,000+ orders"],
 };
 
-function onSpotlightMove(e) {
-    const r = e.currentTarget.getBoundingClientRect();
-    e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
-    e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
+function Chapter({ p, pinned }) {
+    const navigate = useNavigate();
+    const slug = p.title.toLowerCase();
+    const study = CASE_STUDIES[slug];
+    const Art = ART[slug];
+    const open = () => navigate(`/projects/${slug}`);
+    return (
+        <article
+            data-testid={p.id}
+            className={`relative flex shrink-0 items-center px-5 md:px-10 ${pinned ? "h-full w-screen" : "w-full border-t border-bone/10 py-20"}`}
+        >
+            <div className="mx-auto grid w-full max-w-[1600px] gap-10 md:grid-cols-12 md:items-center md:gap-14">
+                <div className="md:col-span-5">
+                    <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-bone/45">
+                        <span className="text-ember">{p.index}</span> / 0{PROJECTS.length} — {p.kind}
+                    </p>
+                    <h3 className="mt-4 font-display text-[clamp(3.4rem,8.5vw,8.6rem)] font-bold leading-[0.84] tracking-[-0.055em]">
+                        <SplitText text={p.title} stagger={0.035} />
+                    </h3>
+                    <div className="mt-8 flex flex-wrap gap-x-8 gap-y-2">
+                        {FACTS[slug].map((f) => (
+                            <span key={f} className="font-serif text-2xl italic text-ember md:text-3xl">
+                                {f}
+                            </span>
+                        ))}
+                    </div>
+                    <p className="mt-6 max-w-[46ch] leading-relaxed text-bone/70">{p.description}</p>
+                    <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-bone/45">{p.tags.join("  /  ")}</p>
+                    <div className="mt-8 flex flex-wrap items-center gap-6">
+                        <Magnetic strength={0.25}>
+                            <button
+                                onClick={open}
+                                data-testid={`project-open-${slug}`}
+                                className="group rounded-full bg-bone px-6 py-3.5 font-display text-sm font-semibold text-ink transition-colors hover:bg-ember active:scale-[0.98]"
+                            >
+                                <Roll>Read the case study →</Roll>
+                            </button>
+                        </Magnetic>
+                        {study?.live && (
+                            <a href={study.live} target="_blank" rel="noopener noreferrer" className="group font-mono text-[12px] uppercase tracking-[0.14em] text-bone/70 hover:text-bone">
+                                <Roll>{study.live.replace("https://", "")} ↗</Roll>
+                            </a>
+                        )}
+                    </div>
+                </div>
+                <motion.div
+                    whileHover={{ scale: 0.985 }}
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    onClick={open}
+                    data-cursor="Open"
+                    className="relative aspect-[4/3] cursor-pointer overflow-hidden rounded-[28px] border border-bone/10 bg-char md:col-span-7"
+                >
+                    <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(239,106,62,0.12),transparent_55%)]" />
+                    <div className="relative h-full">
+                        <Art />
+                    </div>
+                </motion.div>
+            </div>
+        </article>
+    );
 }
 
-function ProjectCard({ p, className }) {
-    const navigate = useNavigate();
+function Intro({ pinned }) {
     return (
-        <motion.article
-            data-testid={p.id}
-            {...reveal}
-            onClick={() => navigate(`/projects/${p.title.toLowerCase()}`)}
-            onMouseMove={onSpotlightMove}
-            className={`spotlight-card group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40 backdrop-blur-xl transition-colors duration-500 hover:border-cyan-500/40 ${className}`}
-        >
-            <div className="relative h-56 overflow-hidden md:h-64">
-                <img
-                    src={p.image}
-                    alt={`${p.title} — ${p.kind}`}
-                    loading="lazy"
-                    width="940"
-                    height="650"
-                    className="h-full w-full object-cover opacity-80 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
-                />
-                <div
-                    aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"
-                />
-                <span className="absolute left-5 top-5 rounded-full border border-white/15 bg-obsidian/60 px-3 py-1 font-mono text-[10px] tracking-[0.25em] text-cyan-300 backdrop-blur-md">
-                    {p.index}
+        <div className={`relative flex shrink-0 flex-col justify-center px-5 md:px-10 ${pinned ? "h-full w-[70vw]" : "w-full pb-10 pt-28"}`}>
+            <Eyebrow index="02">Selected work</Eyebrow>
+            <h2 className="mt-8 font-display text-[clamp(3.6rem,11vw,12rem)] font-bold leading-[0.82] tracking-[-0.06em]">
+                <SplitText text="Things" />
+                <br />
+                <span className="font-serif font-normal italic text-ember">
+                    <SplitText text="that shipped." delay={0.2} />
                 </span>
-            </div>
-            <div className="relative z-[3] flex flex-1 flex-col gap-3 p-6">
-                <div className="flex items-start justify-between gap-4">
-                    <div>
-                        <h3 className="font-display text-xl font-bold tracking-tight sm:text-2xl">
-                            {p.title}
-                        </h3>
-                        <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-cyan-400/80">
-                            {p.kind}
-                        </p>
-                    </div>
-                    <ArrowUpRight
-                        className="mt-1 h-5 w-5 shrink-0 text-slate-500 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-cyan-400"
-                        aria-hidden="true"
-                    />
-                </div>
-                <p className="text-sm leading-relaxed text-slate-400">
-                    {p.description}
-                </p>
-                {p.stat && (
-                    <p className="font-mono text-xs tracking-wide text-amber">
-                        {p.stat}
-                    </p>
-                )}
-                <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
-                    {p.tags.map((t) => (
-                        <span
-                            key={t}
-                            className="rounded-full border border-white/10 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-slate-400"
-                        >
-                            {t}
-                        </span>
-                    ))}
-                    <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.2em] text-slate-600 transition-colors duration-300 group-hover:text-cyan-400">
-                        Case study →
-                    </span>
-                </div>
-            </div>
-        </motion.article>
+            </h2>
+            <p className="mt-8 max-w-md leading-relaxed text-bone/60">
+                Three products, two of them live in production — <a className="underline decoration-ember underline-offset-4" href={LIVE_LINKS[0].url} target="_blank" rel="noopener noreferrer">{LIVE_LINKS[0].label}</a> and{" "}
+                <a className="underline decoration-ember underline-offset-4" href={LIVE_LINKS[1].url} target="_blank" rel="noopener noreferrer">{LIVE_LINKS[1].label}</a>.
+            </p>
+            {pinned && <p className="mt-12 font-mono text-[11px] uppercase tracking-[0.14em] text-bone/45">Keep scrolling →</p>}
+        </div>
     );
 }
 
 export default function Projects() {
-    const [featured, compact, tall] = PROJECTS;
+    const pinned = useMedia("(min-width: 900px)") && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const ref = useRef(null);
+    const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
+    // intro panel is 70vw; then one 100vw chapter per project
+    const travel = 70 + (PROJECTS.length - 1) * 100;
+    const x = useTransform(scrollYProgress, [0.04, 0.96], ["0vw", `-${travel}vw`]);
+    const [idx, setIdx] = useState(0);
+    useMotionValueEvent(scrollYProgress, "change", (v) => setIdx(Math.min(PROJECTS.length, Math.max(0, Math.round(((v - 0.04) / 0.92) * travel / 100 + 0.25)))));
+
+    if (!pinned)
+        return (
+            <section id="projects" data-testid="bento-grid-container" className="relative">
+                <Intro />
+                {PROJECTS.map((p) => (
+                    <Chapter key={p.id} p={p} />
+                ))}
+            </section>
+        );
+
     return (
-        <section id="projects" className="relative mx-auto max-w-7xl px-6 py-24 md:py-32">
-            <motion.div {...reveal} className="mb-14">
-                <p className="mb-3 font-mono text-xs uppercase tracking-[0.35em] text-cyan-400/80">
-                    Selected Work
-                </p>
-                <h2 className="font-display text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
-                    Projects that shipped.
-                </h2>
-            </motion.div>
-
-            <div
-                data-testid="bento-grid-container"
-                className="grid grid-cols-1 gap-6 md:grid-cols-12 lg:gap-8"
-            >
-                <ProjectCard
-                    p={featured}
-                    className="md:col-span-8 md:row-span-2 md:min-h-[560px]"
-                />
-                <ProjectCard p={compact} className="md:col-span-4" />
-                <ProjectCard p={tall} className="md:col-span-4 md:row-span-2" />
-
-                <motion.a
-                    data-testid="project-card-4"
-                    {...reveal}
-                    href={LIVE_LINKS[0].url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onMouseMove={onSpotlightMove}
-                    className="spotlight-card group relative flex flex-col justify-between gap-6 rounded-2xl border border-white/10 bg-slate-900/40 p-8 backdrop-blur-xl transition-colors duration-500 hover:border-amber/40 md:col-span-8"
-                >
-                    <div>
-                        <p className="mb-3 font-mono text-xs uppercase tracking-[0.35em] text-amber/90">
-                            Live in production
-                        </p>
-                        <p className="max-w-md text-sm leading-relaxed text-slate-400">
-                            Both platforms are deployed, scaled on GCP and used by
-                            thousands of real users — not demo projects.
-                        </p>
+        <section id="projects" ref={ref} data-testid="bento-grid-container" className="relative" style={{ height: `${(PROJECTS.length + 1) * 100}vh` }}>
+            <div className="sticky top-0 h-[100dvh] overflow-hidden">
+                <motion.div style={{ x }} className="flex h-full w-max">
+                    <Intro pinned />
+                    {PROJECTS.map((p) => (
+                        <Chapter key={p.id} p={p} pinned />
+                    ))}
+                </motion.div>
+                <div className="absolute inset-x-10 bottom-8 flex items-center gap-6 font-mono text-[11px] uppercase tracking-[0.14em] text-bone/45">
+                    <span className="tabular-nums text-bone">{idx === 0 ? "00" : `0${idx}`}</span>
+                    <div className="relative h-px flex-1 bg-bone/15">
+                        <motion.div style={{ scaleX: scrollYProgress }} className="absolute inset-0 origin-left bg-ember" />
                     </div>
-                    <div className="flex flex-wrap gap-3">
-                        {LIVE_LINKS.map((l) => (
-                            <span
-                                key={l.label}
-                                className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 font-mono text-xs text-slate-300 transition-colors duration-300 group-hover:border-amber/50 group-hover:text-amber"
-                            >
-                                <Globe className="h-3.5 w-3.5" aria-hidden="true" />
-                                {l.label}
-                            </span>
-                        ))}
-                    </div>
-                </motion.a>
+                    <span>0{PROJECTS.length}</span>
+                </div>
             </div>
         </section>
     );

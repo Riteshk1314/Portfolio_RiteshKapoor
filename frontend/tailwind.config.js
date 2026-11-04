@@ -10,12 +10,17 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Syne', 'sans-serif'],
-        body: ['"Space Grotesk"', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'monospace'],
+        display: ['"Bricolage Grotesque"', 'sans-serif'],
+        body: ['Geist', 'sans-serif'],
+        mono: ['"Geist Mono"', 'monospace'],
+        serif: ['"Instrument Serif"', 'serif'],
       },
       colors: {
         obsidian: '#07080C',
+        ink: '#0E0D0B',
+        char: '#171512',
+        bone: '#EDE8DE',
+        ember: '#EF6A3E',
         surface: '#0F111A',
         glass: 'rgba(18, 22, 34, 0.65)',
         electric: '#38BDF8',
