@@ -1,0 +1,22 @@
+# secrets
+.env
+backend/.env
+frontend/.env
+*.pem
+
+# deps & builds
+node_modules/
+build/
+dist/
+__pycache__/
+*.pyc
+.venv/
+
+# editor / OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# logs
+*.log
