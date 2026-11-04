@@ -26,6 +26,11 @@ Build a portfolio website for Ritesh Kapoor from his resume PDF (work-only showc
 ## Implemented (2026-11-04)
 - GitHub repo setup + PHOTO_METRICS_GUIDE.md (photo judging metrics & best practices, from research)
 - Full site as above, verified: curl backend endpoints, desktop 1440 + mobile 390 screenshots, mobile menu, skills filter, contact form e2e (Preview Tester message stored in DB)
+- Resume download button on hero (serves /RiteshKapoorResume.pdf from public/, verified 200 application/pdf)
+- Case study pages at /projects/{agentstream|talkeys|fooddle} (overview, highlights, stack, live/repo links, clickable bento cards)
+- Inbox panel at /admin/inbox (reads GET /api/contact, newest first; unauthenticated — direct URL only)
+- SEO + Open Graph/Twitter meta tags in index.html
+- Test contact messages cleaned from DB after verification
 
 ## Backlog
 - P1: Downloadable resume PDF button; project detail modals; per-project case-study pages
