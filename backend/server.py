@@ -28,6 +28,9 @@ INDEXES: dict[str, list[IndexModel]] = {
         IndexModel([("id", ASCENDING)], name="id", unique=True),
         IndexModel([("timestamp", DESCENDING)], name="timestamp_desc"),
     ],
+    "contact_messages": [
+        IndexModel([("timestamp", DESCENDING)], name="timestamp_desc"),
+    ],
 }
 
 
@@ -49,13 +52,22 @@ api_router = APIRouter(prefix="/api")
 # Define Models
 class StatusCheck(BaseModel):
     model_config = ConfigDict(extra="ignore")  # Ignore MongoDB's _id field
-    
+
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     client_name: str
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class StatusCheckCreate(BaseModel):
     client_name: str
+
+class ContactMessageCreate(BaseModel):
+    name: str = Field(min_length=1, max_length=120)
+    email: str = Field(min_length=3, max_length=200)
+    message: str = Field(min_length=1, max_length=5000)
+
+class ContactMessage(ContactMessageCreate):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
@@ -66,11 +78,11 @@ async def root():
 async def create_status_check(input: StatusCheckCreate):
     status_dict = input.model_dump()
     status_obj = StatusCheck(**status_dict)
-    
+
     # Convert to dict and serialize datetime to ISO string for MongoDB
     doc = status_obj.model_dump()
     doc['timestamp'] = doc['timestamp'].isoformat()
-    
+
     _ = await db.status_checks.insert_one(doc)
     return status_obj
 
@@ -78,13 +90,29 @@ async def create_status_check(input: StatusCheckCreate):
 async def get_status_checks(limit: int = Query(20, ge=1, le=100)):
     # Exclude MongoDB's _id field from the query results
     status_checks = await db.status_checks.find({}, {"_id": 0}).sort("timestamp", -1).limit(limit).to_list(limit)
-    
+
     # Convert ISO string timestamps back to datetime objects
     for check in status_checks:
         if isinstance(check['timestamp'], str):
             check['timestamp'] = datetime.fromisoformat(check['timestamp'])
-    
+
     return status_checks
+
+@api_router.post("/contact")
+async def create_contact_message(input: ContactMessageCreate):
+    msg = ContactMessage(**input.model_dump())
+    doc = msg.model_dump()
+    doc['timestamp'] = doc['timestamp'].isoformat()
+    await db.contact_messages.insert_one(doc)
+    return {"ok": True, "id": msg.id}
+
+@api_router.get("/contact", response_model=List[ContactMessage])
+async def get_contact_messages(limit: int = Query(50, ge=1, le=200)):
+    messages = await db.contact_messages.find({}, {"_id": 0}).sort("timestamp", -1).limit(limit).to_list(limit)
+    for m in messages:
+        if isinstance(m['timestamp'], str):
+            m['timestamp'] = datetime.fromisoformat(m['timestamp'])
+    return messages
 
 # Include the router in the main app
 app.include_router(api_router)

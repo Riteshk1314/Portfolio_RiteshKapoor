@@ -19,17 +19,8 @@ module.exports = {
         surface: '#0F111A',
         glass: 'rgba(18, 22, 34, 0.65)',
         electric: '#38BDF8',
-        amber: {
-          DEFAULT: '#F59E0B',
-        },
+        amber: '#F59E0B',
         iris: '#818CF8',
-      },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)'
-      },
-      colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

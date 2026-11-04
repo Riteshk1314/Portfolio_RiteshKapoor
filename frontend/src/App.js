@@ -1,57 +1,79 @@
-import { useEffect } from "react";
+import { useEffect, Component } from "react";
 import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
-import { HOME } from "@/constants/testIds";
+import { BrowserRouter } from "react-router-dom";
+import Lenis from "lenis";
+import { Toaster } from "sonner";
+import Nav from "@/components/Nav";
+import Hero from "@/components/Hero";
+import Marquee from "@/components/Marquee";
+import Projects from "@/components/Projects";
+import Skills from "@/components/Skills";
+import Experience from "@/components/Experience";
+import About from "@/components/About";
+import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
+import CursorGlow from "@/components/CursorGlow";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
-
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
+class ErrorBoundary extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { err: false };
     }
-  };
-
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
-
-  return (
-    // The marker attribute below lets the platform probe detect the stock splash — remove it with this page
-    <div data-emergent-splash>
-      <header className="App-header">
-        <a
-          data-testid={HOME.emergentLink}
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
-
-function App() {
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
+    static getDerivedStateFromError() {
+        return { err: true };
+    }
+    render() {
+        if (this.state.err) {
+            return (
+                <div className="grid min-h-screen place-items-center bg-obsidian font-mono text-sm text-slate-400">
+                    Something broke — please refresh the page.
+                </div>
+            );
+        }
+        return this.props.children;
+    }
 }
 
-export default App;
+export default function App() {
+    useEffect(() => {
+        const lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+        window.__lenis = lenis;
+        let raf;
+        const loop = (t) => {
+            lenis.raf(t);
+            raf = requestAnimationFrame(loop);
+        };
+        raf = requestAnimationFrame(loop);
+        return () => {
+            cancelAnimationFrame(raf);
+            lenis.destroy();
+            window.__lenis = null;
+        };
+    }, []);
+
+    return (
+        <ErrorBoundary>
+            <BrowserRouter>
+                <div className="grain bg-obsidian font-body text-slate-50 antialiased">
+                    <CursorGlow />
+                    <Nav />
+                    <main>
+                        <Hero />
+                        <Marquee />
+                        <Projects />
+                        <Skills />
+                        <Experience />
+                        <About />
+                        <Contact />
+                    </main>
+                    <Footer />
+                    <Toaster
+                        theme="dark"
+                        position="bottom-right"
+                        data-testid="toast-notification"
+                    />
+                </div>
+            </BrowserRouter>
+        </ErrorBoundary>
+    );
+}
