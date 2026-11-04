@@ -1,0 +1,137 @@
+{
+  "project_title": "Ritesh Kapoor Portfolio - Awwwards-Level 3D & Kinetic Showcase",
+  "theme": "Modern Dark Luxury & Kinetic High-Contrast (Obsidian & Platinum)",
+  "context": "Marketing / Portfolio Showcase",
+  "persona_and_style": {
+    "designer_identity": "E1 Creative Designer - High-Impact Anti-AI Masterpiece",
+    "aesthetic_archetype": "ARCHETYPE 5: LUXURY & ARCHETYPE 7: ELECTRIC PRECISION (Obsidian #090A0F, Electric Amber/Cyan Highlights, Glassmorphism, Kinetic Motion)",
+    "tone": "Avant-garde, Precise, High-Engineering, Directorial, Cinematic",
+    "key_principles": [
+      "Fusion over Imitation: Swiss brutalist layout meets 3D WebGL hero geometry and luxury glassmorphism",
+      "Content is King: No personal headshots (work-only focus) with masked line-by-line kinetic hero reveal",
+      "Negative Space & Asymmetry: Asymmetric bento grid layouts with dynamic span ratios and breathing space",
+      "Tactile Micro-Interactions: Lenis smooth scroll, magnetic hover triggers, directional cursor spotlights"
+    ]
+  },
+  "typography": {
+    "heading_font": "Syne / Unbounded / General Sans / Outfit (Display Sans with radical tracking)",
+    "body_font": "Space Grotesk / IBM Plex Sans / Plus Jakarta Sans",
+    "mono_font": "JetBrains Mono (for metadata, technical tags, statistics)",
+    "hierarchy": {
+      "h1_hero": "text-4xl sm:text-6xl lg:text-7xl font-black tracking-tighter leading-none",
+      "h2_section": "text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight",
+      "h3_card": "text-xl sm:text-2xl font-bold tracking-tight",
+      "subheading": "text-base sm:text-lg font-normal text-slate-400 leading-relaxed",
+      "caption_mono": "text-xs font-mono uppercase tracking-[0.2em] text-cyan-400/80"
+    },
+    "forbidden_fonts": ["Inter for main headings", "Roboto", "Open Sans"]
+  },
+  "colors": {
+    "background_primary": "#07080C",
+    "background_secondary": "#0F111A",
+    "background_surface": "rgba(18, 22, 34, 0.65)",
+    "border_subtle": "rgba(255, 255, 255, 0.08)",
+    "border_glow": "rgba(56, 189, 248, 0.3)",
+    "accent_primary": "#38BDF8",
+    "accent_secondary": "#F59E0B",
+    "accent_violet": "#818CF8",
+    "text_primary": "#F8FAFC",
+    "text_secondary": "#94A3B8",
+    "text_muted": "#64748B",
+    "gradient_hero_overlay": "linear-gradient(180deg, rgba(7, 8, 12, 0.2) 0%, rgba(7, 8, 12, 0.95) 100%)",
+    "forbidden_colors": ["#7351B7", "#1B93A4"]
+  },
+  "visual_enhancers": {
+    "glassmorphism": {
+      "nav_header": "backdrop-blur-2xl bg-[#07080C]/80 border-b border-white/10 shadow-2xl z-50",
+      "bento_cards": "backdrop-blur-xl bg-slate-900/40 border border-white/10 hover:border-cyan-500/40 transition-all duration-500 rounded-2xl"
+    },
+    "custom_cursor": "Interactive trailing cursor or magnetic hover states on key CTA buttons",
+    "hero_signature_moment": "Masked line-by-line reveal using Framer Motion staggered child clip-path transforms on initial page load",
+    "svg_logo_mark": "<svg viewBox='0 0 100 100' className='w-9 h-9 text-cyan-400'><path d='M20 20 L50 80 L80 20 M50 20 L50 80' stroke='currentColor' strokeWidth='8' strokeLinecap='round' strokeLinejoin='round' fill='none'/><circle cx='80' cy='20' r='6' fill='#F59E0B'/></svg>",
+    "editorial_marquee": "react-fast-marquee with slow, elegant velocity featuring skills, clients, and technical competencies in low-contrast uppercase mono font with massive padding"
+  },
+  "3d_and_motion": {
+    "hero_3d": {
+      "library": "Three.js / React Three Fiber / Drei / Canvas 3D",
+      "concept": "Interactive floating kinetic mesh or geometric wireframe core reacting to cursor position with subtle ambient floating motion",
+      "lighting": "PointLight + DirectionalLight with high intensity and soft cyan/amber rim highlights so geometry is vibrant and never dark/muddy",
+      "fallback": "Interactive Canvas particle grid with fluid velocity response"
+    },
+    "scroll_engine": "Lenis smooth scrolling for weighted momentum feel",
+    "scroll_reveal": "Framer Motion section enter viewport reveals with staggered opacity and y-axis translation",
+    "tilt_effect": "Perspective 3D hover tilt on project cards using spring physics"
+  },
+  "layout_and_bento": {
+    "hero_section": "Min height 100vh, kinetic headline, floating 3D canvas background/overlay, status indicator pill, quick action buttons",
+    "bento_project_grid": {
+      "grid_classes": "grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-6 lg:gap-8",
+      "featured_item": "col-span-full md:col-span-8 row-span-2 (High-density showcase with spotlight effect)",
+      "secondary_item": "col-span-1 md:col-span-4 row-span-1 (Metrics/Architecture summary)",
+      "tall_item": "col-span-1 md:col-span-4 row-span-2 (Vertical detailed tech stack & live demo preview)"
+    },
+    "skills_architecture_section": "Swiss grid layout with interactive tabs/filter, metric counters, and category blocks",
+    "contact_section": "Minimalist high-contrast contact form with interactive confirmation toasts and copyable direct email pill"
+  },
+  "image_urls": [
+    {
+      "category": "project_showcase_1",
+      "description": "Abstract futuristic digital interface showcasing UI controls and telemetry analytics",
+      "image_url": "https://images.pexels.com/photos/27141313/pexels-photo-27141313.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+    },
+    {
+      "category": "project_showcase_2",
+      "description": "High-tech analytics dashboard in dark low light with neon data curves",
+      "image_url": "https://images.pexels.com/photos/27141316/pexels-photo-27141316.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+    },
+    {
+      "category": "project_showcase_3",
+      "description": "3D geometric futuristic glowing blue cube rendering",
+      "image_url": "https://images.unsplash.com/photo-1775993347227-b583df6c7b9b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNzl8MHwxfHNlYXJjaHw0fHwzZCUyMGFic3RyYWN0JTIwcmVuZGVyJTIwZGFyayUyMGx1eHVyeSUyMGRhcmslMjBmdXR1cmlzdGljJTIwdGVjaG5vbG9neSUyMHNvZnR3YXJlJTIwcHJvZHVjdCUyMHVpJTIwZGFzaGJvYXJkJTIwd2ViJTIwZGVzaWduJTIwc2hvd2Nhc2V8ZW58MHx8fHwxNzkzNzkwNjU3fDA&ixlib=rb-4.1.0&q=85"
+    },
+    {
+      "category": "project_showcase_4",
+      "description": "Abstract dark metallic curves and textured surfaces",
+      "image_url": "https://images.unsplash.com/photo-1763805508094-901f2a79ff77?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNzl8MHwxfHNlYXJjaHxfHwzZCUyMGFic3RyYWN0JTIwcmVuZGVyJTIwZGFyayUyMGx1eHVyeSUyMGRhcmslMjBmdXR1cmlzdGljJTIwdGVjaG5vbG9neSUyMHNvZnR3YXJlJTIwcHJvZHVjdCUyMHVpJTIwZGFzaGJvYXJkJTIwd2ViJTIwZGVzaWduJTIwc2hvd2Nhc2V8ZW58MHx8fHwxNzkzNzkwNjU3fDA&ixlib=rb-4.1.0&q=85"
+    }
+  ],
+  "accessibility_and_testing": {
+    "data_testids": [
+      "nav-header",
+      "nav-logo-link",
+      "nav-item-projects",
+      "nav-item-about",
+      "nav-item-skills",
+      "nav-item-contact",
+      "hero-headline",
+      "hero-subheading",
+      "hero-cta-projects",
+      "hero-cta-contact",
+      "hero-3d-canvas",
+      "bento-grid-container",
+      "project-card-1",
+      "project-card-2",
+      "project-card-3",
+      "project-modal-trigger",
+      "editorial-marquee-container",
+      "skills-filter-btn",
+      "skills-list",
+      "about-bio-card",
+      "contact-form",
+      "contact-input-name",
+      "contact-input-email",
+      "contact-input-message",
+      "contact-submit-button",
+      "toast-notification"
+    ],
+    "rules": "All interactive buttons, links, form fields, and modal toggles must have explicit data-testid and aria labels."
+  },
+  "instructions_to_main_agent": [
+    "Build a JS/React frontend incorporating Framer Motion, Lenis smooth scrolling, Three.js/R3F interactive hero 3D canvas, and Tailwind CSS.",
+    "Implement the masked line-by-line kinetic headline reveal on hero load.",
+    "Use Lenis for momentum smooth scrolling.",
+    "Do NOT use any personal headshots or face photos — showcase technical work, project architecture, interactive demos, and metrics.",
+    "Render an SVG logo mark for Ritesh Kapoor in header and footer, also set favicon dynamically or in index.html.",
+    "Ensure all data-testid attributes match the specified list for test automation."
+  ]
+}

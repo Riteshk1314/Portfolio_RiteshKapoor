@@ -9,6 +9,21 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        display: ['Syne', 'sans-serif'],
+        body: ['"Space Grotesk"', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+      },
+      colors: {
+        obsidian: '#07080C',
+        surface: '#0F111A',
+        glass: 'rgba(18, 22, 34, 0.65)',
+        electric: '#38BDF8',
+        amber: {
+          DEFAULT: '#F59E0B',
+        },
+        iris: '#818CF8',
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
@@ -67,10 +82,10 @@ module.exports = {
         },
         'accordion-up': {
           from: {
-            height: 'var(--radix-accordion-content-height)'
+            height: '0'
           },
           to: {
-            height: '0'
+            height: 'var(--radix-accordion-content-height)'
           }
         }
       },
